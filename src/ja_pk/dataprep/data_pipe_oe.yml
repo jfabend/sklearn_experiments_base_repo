@@ -1,0 +1,8 @@
+# fill up the na values by their former values
+# (The colnames stay the same afterwards)
+p1:
+  func: oe_encode
+  cols:
+    - Pclass
+    - Sex
+    - Embarked

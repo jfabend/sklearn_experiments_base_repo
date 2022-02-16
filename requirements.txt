@@ -1,0 +1,9 @@
+pandas==1.4.1
+scikit-learn==1.0.2
+dtale==1.61.1
+ipykernel
+pyyaml==6.0
+python-box==5.4.1
+python-dotenv
+imblearn
+xgboost==1.5.2

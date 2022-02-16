@@ -1,0 +1,20 @@
+#p1:
+# func: simpleimpute
+# p2:
+#  func: 'minmaxscaler'
+#p2:
+#  func: SMOTE
+#p2:
+#  func: 'minmaxscaler'
+#  feature_range:
+#    - 0
+#    - 10
+p3:
+  func: 'onehotencoding'
+  cols:
+    - Pclass
+    - Sex
+    #- Age - NaN Value
+    - Fare
+    #- SibSp log transform?
+    - Embarked

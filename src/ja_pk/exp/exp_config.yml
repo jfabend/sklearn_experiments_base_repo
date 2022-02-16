@@ -1,0 +1,49 @@
+feature_list:
+    #- bond_spread_mavg_600
+    - Fare
+    - Pclass_1
+    - Pclass_2
+    - Pclass_3
+    - Sex_female
+    - Sex_male
+    - Embarked_C
+    - Embarked_Q
+    - Embarked_S
+
+#table_name: "prepped_20210601"
+target: "Survived"
+models:
+  #"xgboostclassifier"
+  "logisticregression"
+  #linearmodel:
+  #  linearmodel__normalize:
+  #    - "False"
+  #    - "True"
+  #knn:
+  #  k:
+  #    - 3
+  #    - 8
+  #  range: "false"
+  #randomforestclassifier:
+  #   # max_depth:
+  #   #   - 5
+  #   #   - 10
+  #  randomforestclassifier__n_estimators:
+  #    - 100
+  #xgboostregressor:
+  #  xgboostregressor__eta:
+  #    - 0.01
+  #  xgboostregressor__max_depth:
+  #    - 15
+  #  xgboostregressor__booster:
+  #    - 'gbtree'
+  #    #- 'gblinear'
+  #  xgboostregressor__min_child_weight:
+  #    - 6
+  # svm
+  # mlpclassifier:
+  #   mlpclassifier__solver:
+  #     - lbfgs
+  #     - adam
+  #   mlpclassifier__max_iter:
+  #     - 1000

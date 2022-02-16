@@ -1,0 +1,115 @@
+# fill up the na values by their former values
+# (The colnames stay the same afterwards)
+p2:
+  func: fill_na_with_last_value
+  cols:
+    - "c_fed_funds_rate__value"
+    - "c_ted_spread_credit_risk__value" #1986
+    - "c_us_bond_1year__value" #1988
+    - "c_usa_bond_10year__value"
+    - c_us_bond_30years__close
+    - c_us_median_weeks_unemployed__value
+    - "c_chicago_fed_fin_condition__value"
+    - "c_chicago_fed_fin_con_credit__value"
+    - "c_us_leading_idx__value"
+    - c_bearmarket_days__value
+    - "c_sp500__close"
+p11:
+  func: set_col_dtype
+  cols:
+    - "c_fed_funds_rate__value"
+    - "c_ted_spread_credit_risk__value" #1986
+    - "c_us_bond_1year__value" #1988
+    - "c_usa_bond_10year__value"
+    - c_us_bond_30years__close
+    - c_us_median_weeks_unemployed__value
+    - "c_sp500__close"
+  dtype: float
+p15:
+  func: new_col_substract
+  base_col: c_us_bond_30years__close
+  sub_col: c_us_bond_1year__value
+  new_col: bond_diff_1_30
+p16:
+  func: new_col_substract
+  base_col: c_us_bond_30years__close
+  sub_col: c_usa_bond_10year__value
+  new_col: bond_diff_10_30
+p17:
+  func: new_col_substract
+  base_col: c_usa_bond_10year__value
+  sub_col: c_us_bond_1year__value
+  new_col: bond_diff_10_1
+p73:
+  func: drop_na_rows
+  special_col: dim_time_date
+p72:
+  func: drop_na_rows
+  special_col: c_fed_funds_rate__value
+p18:
+  func: lin_reg_of_col
+  X_cols: dim_time_date
+  y_col: c_fed_funds_rate__value
+  new_colname: linreg_fed_funds_rate
+p22:
+  func: new_col_substract
+  base_col: c_fed_funds_rate__value
+  sub_col: linreg_fed_funds_rate
+  new_col: fed_funds_rate_notrend
+p27:
+  func: rolling_mean
+  cols: fed_funds_rate_notrend
+  days: 300
+p28:
+  func: rolling_mean
+  cols:
+    - bond_diff_1_30
+    - bond_diff_10_30
+    - bond_diff_10_1
+  days: 300
+p29:
+  func: rolling_mean
+  cols:
+    - bond_diff_1_30
+    - bond_diff_10_30
+    - bond_diff_10_1
+  days: 600
+p30:
+  func: rolling_mean
+  cols:
+    - c_us_median_weeks_unemployed__value
+  days: 60
+p31:
+  func: rolling_mean
+  cols:
+    - c_us_median_weeks_unemployed__value
+  days: 120
+p32:
+  func: rolling_mean
+  cols:
+    - c_us_median_weeks_unemployed__value
+  days: 180
+p74:
+  func: drop_na_rows
+  special_col: c_us_median_weeks_unemployed__value_mavg_120
+p33:
+  func: lin_reg_of_col
+  X_cols: dim_time_date
+  y_col: c_us_median_weeks_unemployed__value_mavg_120
+  new_colname: linreg_weeks_unemployed
+p34:
+  func: new_col_substract
+  base_col: c_us_median_weeks_unemployed__value_mavg_120
+  sub_col: linreg_weeks_unemployed
+  new_col: weeks_unemployed_notrend
+p55:
+  func: drop_na_rows
+  special_col: 'c_bearmarket_days__value'
+p76:
+  func: remove_if_smaller
+  cols: dim_time_year
+  value: 1979
+p75:
+  func: remove_if_greater
+  cols: dim_time_year
+  value: 2021
