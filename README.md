@@ -1,6 +1,11 @@
 # sklearn_experiments_base_repo
 Base Repo for experimenting with sklearn and doing dataprep before
 
+Installation after git clone:
+python -m venv venv (...then select the venv as python interpreter.)
+pip install -r .\requirements.txt (... to install all the necessary packages)
+pip install -e . (... to load the code in this repo as package)
+
 Data Prep:
 Please change data path and path to data_pipeline.yml in ja_pk.dataprep.run_etl_pipeline.py.
 Afterwards you can run this file and all configured preparation steps in data_pipeline.yml will be executed.
