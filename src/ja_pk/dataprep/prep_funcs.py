@@ -9,7 +9,8 @@ sys.path.append(os.getenv("ROOT_DIR"))
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import PowerTransformer
 from scipy.signal import argrelextrema
 
 from ja_pk.utils import basic
@@ -22,12 +23,23 @@ def drop_na_rows(df, special_col=""):
     else:
         df = df[~pd.isnull(df[special_col])]
     return df
+
+def remove_cols(df, cols):
+    if type(cols) == box.box_list.BoxList:
+        df = df.drop(columns=cols)
+    if type(cols) == str:
+        df = df.drop(columns=[cols])
+    return df
     
 def mean_by_group(df, targetcol, groupcols):
     return df.groupby(groupcols)[targetcol].mean()
 
 def new_col_substract(df, base_col, sub_col, new_col):
     df[new_col] = df[base_col] - df[sub_col]
+    return df
+
+def new_col_divide(df, base_col, divby_col, new_col):
+    df[new_col] = df[base_col] / df[divby_col]
     return df
 
 def col_past_percent_delta(df, cols, days):
@@ -107,12 +119,42 @@ def standardscaling(df, cols):
     X_train_scaled = scaler.transform(df[cols])
     return X_train_scaled
 
+def minmaxscaler(df, cols):
+    min_max_scaler = MinMaxScaler()
+    df[cols] = min_max_scaler.fit_transform(df[cols])
+    return df
+
+def skpowertransformer(df, cols):
+    powertransformer = PowerTransformer()
+    df[cols] = powertransformer.fit_transform(df[cols])
+    return df
+
+
 def oe_encode(df, cols):
     if type(cols) == box.box_list.BoxList:
         for col in cols:
             df = pd.get_dummies(df, prefix=[col], columns = [col], drop_first=False)
     if type(cols) == str:
         df = pd.get_dummies(df, prefix=[cols], columns = [cols], drop_first=False)
+    return df
+
+def zipcode_transformer(df, col):
+    """Splits 5-figured zip codes into 4 new region columns."""
+    def len_check(cell):
+        if len(cell) != 5:
+            return False
+        else:
+            return True
+    
+    def cut_zipcode(cell, digits):
+        if digits == 0:
+            return cell[0:]
+        return cell[0:digits]
+
+    df[col] = df[col].astype('str')
+    df = df[df[col].apply(lambda x: len_check(x))]
+    for i in range(0,5):
+        df[f'zip_fig_{i}'] = df[col].apply(lambda x: cut_zipcode(x, i))
     return df
 
 def less_greater_encoding(df, cols, threshold):
@@ -269,4 +311,12 @@ def minmax_channel_pos(df, col, col_min, col_max):
     """
     df['max_min_diff'] = df[col_max] - df[col_min]
     df[col + '_chanpos'] = (df[col_max] - df[col]) / df['max_min_diff']
+    return df
+    
+def remove_umlaute_from_colnames(df):
+    clean_names = []
+    for name in df.columns:
+        new_name = name.replace("ü", "ue").replace("ä", "ae").replace("ö", "oe")
+        clean_names.append(new_name)
+    df.columns = clean_names
     return df

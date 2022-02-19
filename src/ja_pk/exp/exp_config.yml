@@ -1,20 +1,38 @@
 feature_list:
-    #- bond_spread_mavg_600
-    - Fare
-    - Pclass_1
-    - Pclass_2
-    - Pclass_3
-    - Sex_female
-    - Sex_male
-    - Embarked_C
-    - Embarked_Q
-    - Embarked_S
+  - yearConstructed
+  - livingSpace
+  - noRooms
+  - 'balcony_False'
+  - 'balcony_True'
+  - 'postcode'
+  - 'interiorQuality_luxury'
+  - 'interiorQuality_normal'
+  - 'interiorQuality_simple'
+  - 'interiorQuality_sophisticated'
+  - 'regionLevel1_Baden_Wuerttemberg'
+  - 'regionLevel1_Bayern'
+  - 'regionLevel1_Berlin'
+  - 'regionLevel1_Brandenburg'
+  - 'regionLevel1_Bremen'
+  - 'regionLevel1_Hamburg'
+  - 'regionLevel1_Hessen'
+  - 'regionLevel1_Mecklenburg_Vorpommern'
+  - 'regionLevel1_Niedersachsen'
+  - 'regionLevel1_Nordrhein_Westfalen'
+  - 'regionLevel1_Rheinland_Pfalz'
+  - 'regionLevel1_Saarland'
+  - 'regionLevel1_Sachsen'
+  - 'regionLevel1_Sachsen_Anhalt'
+  - 'regionLevel1_Schleswig_Holstein'
+  - 'regionLevel1_Thueringen'
+  - 'lift_False'
+  - 'lift_True'
 
 #table_name: "prepped_20210601"
-target: "Survived"
+target: "totalRent"
 models:
   #"xgboostclassifier"
-  "logisticregression"
+  #"logisticregression"
   #linearmodel:
   #  linearmodel__normalize:
   #    - "False"
@@ -24,13 +42,14 @@ models:
   #    - 3
   #    - 8
   #  range: "false"
+  #randomforestregressor
   #randomforestclassifier:
   #   # max_depth:
   #   #   - 5
   #   #   - 10
   #  randomforestclassifier__n_estimators:
   #    - 100
-  #xgboostregressor:
+  xgboostregressor
   #  xgboostregressor__eta:
   #    - 0.01
   #  xgboostregressor__max_depth:

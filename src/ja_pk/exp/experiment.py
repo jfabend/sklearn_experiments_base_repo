@@ -1,11 +1,11 @@
+import logging
+logging.basicConfig(level = logging.INFO)
 from sklearn import model_selection as ms
 #from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import cross_validate 
-
 from ja_pk.exp.preprocess import get_preprocessing_pipe
-
 import pandas as pd
 
 class Experiment():
@@ -63,7 +63,7 @@ class Experiment():
         # Cross Validation Parameters
         # Move this to the exp_config.yml
 
-        my_scoring = 'accuracy'
+        my_scoring = ['neg_root_mean_squared_error' , 'neg_mean_absolute_percentage_error']
         #my_scoring = 'roc_auc'
         # my_scoring = ['accuracy', 'roc_auc'] => !! Das geht nicht !!
         folds = 5
@@ -74,7 +74,9 @@ class Experiment():
 
         # if there is a param grid, start scikit GridSearchCV()    
         else:
+            logging.info(f'Building the GridSearchCV')
             grid = ms.GridSearchCV(pipe, self.param_grid, cv=folds, scoring =my_scoring, return_train_score=False)
+            logging.info(f'Starting the fitting process')
             grid.fit(self.feature_data, self.target_data)
             results = pd.DataFrame(grid.cv_results_)[['mean_test_score', 'std_test_score', 'params']] 
             print(grid.best_params_)

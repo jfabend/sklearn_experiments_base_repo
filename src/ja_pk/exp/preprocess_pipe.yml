@@ -9,12 +9,12 @@
 #  feature_range:
 #    - 0
 #    - 10
-p3:
-  func: 'onehotencoding'
-  cols:
-    - Pclass
-    - Sex
-    #- Age - NaN Value
-    - Fare
-    #- SibSp log transform?
-    - Embarked
+#p3:
+#  func: 'onehotencoding'
+#  cols:
+#    - Pclass
+#    - Sex
+#    #- Age - NaN Value
+#    - Fare
+#    #- SibSp log transform?
+#    - Embarked

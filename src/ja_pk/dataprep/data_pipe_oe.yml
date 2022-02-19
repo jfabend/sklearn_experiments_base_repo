@@ -1,8 +1,85 @@
-# fill up the na values by their former values
-# (The colnames stay the same afterwards)
-p1:
+#p1:
+#  func: remove_cols
+#  cols:
+#    - telekomHybridUploadSpeed
+#    - noParkSpaces
+#    - heatingCosts
+#    - energyEfficiencyClass
+#    - lastRefurbish
+#    - electricityBasePrice
+#    - electricityKwhPrice
+#p1:
+#  func: drop_na_rows
+#  special_col: yearConstructed
+p2:
+  func: new_col_divide
+  base_col: totalRent
+  divby_col: livingSpace
+  new_col: rent_per_space
+
+p3:
+  func: remove_if_greater
+  cols:
+    - rent_per_space
+  value: 100
+
+p3:
+  func: remove_if_greater
+  cols:
+    - totalRent
+  value: 4000
+
+p4:
+  func: remove_if_greater
+  cols:
+    - numberOfFloors
+  value: 99
+
+p41:
+  func: remove_if_greater
+  cols:
+    - livingSpace
+  value: 250
+p42:
+  func: remove_if_greater
+  cols:
+    - noRooms
+  value: 9
+
+p5:
+  func: remove_if_smaller
+  cols:
+    - totalRent
+  value: 1
+
+p6:
+  func: remove_if_smaller
+  cols:
+    - yearConstructed
+  value: 1850
+
+p7:
   func: oe_encode
   cols:
-    - Pclass
-    - Sex
-    - Embarked
+    - balcony
+    - heatingType
+    - interiorQuality
+    - regionLevel1
+    - newlyConst
+    - lift
+    - kitchen
+p8:
+  func: zipcode_transformer
+  col: postcode
+
+p81:
+  func: minmaxscaler
+  cols:
+    - yearConstructed
+    - livingSpace
+    - noRooms
+    - postcode
+
+p9:
+  func: remove_umlaute_from_colnames
+  

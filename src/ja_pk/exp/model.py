@@ -1,5 +1,6 @@
 from sklearn import linear_model, svm
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.neural_network import MLPClassifier
 from xgboost import XGBRegressor
 from xgboost import XGBClassifier
@@ -14,6 +15,8 @@ class Model():
             model = linear_model.LinearRegression()
         if self.model_name == "randomforestclassifier":
             model = RandomForestClassifier()
+        if self.model_name == "randomforestregressor":
+            model = RandomForestRegressor()
         if self.model_name == "xgboostregressor":
             model = XGBRegressor(objective='reg:squarederror')
         if self.model_name == "logisticregression":

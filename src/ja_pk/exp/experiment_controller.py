@@ -1,6 +1,8 @@
 import sys, getopt, os
 from dotenv import load_dotenv
 load_dotenv(verbose=False)
+import logging
+logging.basicConfig(level = logging.INFO)
 #sys.path.append(os.getenv("ROOT_DIR"))
 
 #from db.config import Config
@@ -19,7 +21,7 @@ with open(os.getenv("ROOT_DIR") + "\\exp\\exp_config.yml", "r") as ymlfile:
 
 # Read table from DB (pandas df)
 #! data = get_dbtable_data(exp_config.table_name)
-data = pd.read_csv("titanic_prepped.csv")
+data = pd.read_csv("train_prepped.csv")
 
 # Read features and target
 feature_list = exp_config.feature_list
@@ -69,6 +71,7 @@ else:
                               modelname=modelname,
                               param_grid=model_params_raw)
 
+  logging.info(f'Starting the experiment now')
   results = experiment.start()
 print(results)
 #print("test_score_mean: "+ str(results['test_score'].mean()))

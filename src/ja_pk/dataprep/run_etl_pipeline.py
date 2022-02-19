@@ -16,7 +16,12 @@ logging.basicConfig(level = logging.INFO)
 pipe_config_pipe = "\\dataprep\\data_pipe_oe.yml"
 pipe_config = basic.read_config(pipe_config_pipe)
 #! data = get_dbtable_data(db_table_name)
-data = pd.read_csv("C:\Data\projects\kaggle\\titanic\\train.csv")
+#data = pd.read_csv("C:\Data\projects\kaggle\\titanic\\train.csv")
+data = pd.read_csv("C:\Data\projects\\nomoko_ass\\immo_data.csv",
+                    sep=',',
+                    encoding = 'utf8',
+                    lineterminator='\n'
+                )
 
 
 logging.info(f' Prep pipeline to run: {pipe_config_pipe}')
@@ -72,7 +77,15 @@ def run_pipeline(df):
 
 new_df = run_pipeline(data)
 new_df.head()
+logging.info(f'total amounf of rows: {new_df.count()[0]}')
 
-new_df.to_csv('titanic_prepped.csv', index=False)
+train_df = new_df.sample(frac = 0.85)
+logging.info(f'amounf of rows train/test set: {train_df.count()[0]}')
+validation_df = new_df.drop(train_df.index)
+logging.info(f'amounf of rows validation set: {validation_df.count()[0]}')
+
+new_df.to_csv('alldata_prepped.csv', index=False)
+train_df.to_csv('train_prepped.csv', index=False)
+validation_df.to_csv('vali_prepped.csv', index=False)
 
 #write_table(new_df, "prepped_20210601")
