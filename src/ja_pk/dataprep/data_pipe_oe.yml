@@ -82,4 +82,8 @@ p81:
 
 p9:
   func: remove_umlaute_from_colnames
+
+p10:
+  func: remove_stopwords_umlaute_german
+  cols: description
   

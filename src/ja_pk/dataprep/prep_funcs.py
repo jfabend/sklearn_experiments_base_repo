@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import sys, os
+import sys, os, re
 import math
 from dotenv import load_dotenv
 import box
@@ -12,6 +12,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import PowerTransformer
 from scipy.signal import argrelextrema
+from nltk import download as nltkdownload
+from nltk.corpus import stopwords
+from string import punctuation
+from string import digits
 
 from ja_pk.utils import basic
 #from db.get_dbtable_data import get_dbtable_data
@@ -319,4 +323,54 @@ def remove_umlaute_from_colnames(df):
         new_name = name.replace("ü", "ue").replace("ä", "ae").replace("ö", "oe")
         clean_names.append(new_name)
     df.columns = clean_names
+    return df
+
+def remove_stopwords_umlaute_german(df, cols):
+    nltkdownload('stopwords')
+    german_stop_words = stopwords.words('german')
+    remove_pun = str.maketrans('', '', punctuation)
+    remove_digits = str.maketrans('', '', digits)
+
+    def umlauts(text):
+        """
+        Replace umlauts for a given text
+        
+        :param word: text as string
+        :return: manipulated text as str
+        """
+        
+        tempVar = text # local variable
+        
+        # Using str.replace() 
+        
+        tempVar = tempVar.replace('ä', 'ae')
+        tempVar = tempVar.replace('ö', 'oe')
+        tempVar = tempVar.replace('ü', 'ue')
+        tempVar = tempVar.replace('Ä', 'Ae')
+        tempVar = tempVar.replace('Ö', 'Oe')
+        tempVar = tempVar.replace('Ü', 'Ue')
+        tempVar = tempVar.replace('ß', 'ss')
+        
+        return tempVar
+    
+    german_stop_words_to_use = []   # List to hold words after conversion
+    for word in german_stop_words:
+        german_stop_words_to_use.append(umlauts(word))
+
+    def cell_stopword_removel(cell):
+        if type(cell) == float:
+            return ""
+        new_text = umlauts(cell)
+        text_wo_pun = new_text.translate(remove_pun)
+        text_wo_num = text_wo_pun.translate(remove_digits)
+        text_wo_stop_words = [word for word in text_wo_num.split() if word.lower() not in german_stop_words_to_use]
+        text_wo_stop_words = ' '.join(text_wo_stop_words)
+        return text_wo_stop_words
+
+    if type(cols) == box.box_list.BoxList:
+        for col in cols:
+            df[col] = df.apply(lambda x: cell_stopword_removel(x[col]), axis=1)
+    if type(cols) == str:
+        df[cols] = df.apply(lambda x: cell_stopword_removel(x[cols]), axis=1)
+
     return df
