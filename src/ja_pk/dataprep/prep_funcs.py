@@ -18,6 +18,10 @@ from nltk.stem.cistem import Cistem
 from string import punctuation
 from string import digits
 from gensim import models as gensimmodels
+from gensim.models.doc2vec import TaggedDocument
+
+from dataclasses import make_dataclass
+
 
 from ja_pk.utils import basic
 #from db.get_dbtable_data import get_dbtable_data
@@ -354,6 +358,7 @@ def remove_stopwords_umlaute_german(df, cols):
         tempVar = tempVar.replace('ß', 'ss')
         tempVar = tempVar.replace(',', '')
 
+
         return tempVar
     
     german_stop_words_to_use = []   # List to hold words after conversion
@@ -397,16 +402,32 @@ def stemming_german(df, cols):
 
     return df
 
-def word2vectorizer(df, cols):
-    df_wv = df[cols]
-    df_wv_onecol = df_wv.apply(lambda x: ','.join(x.astype(str)), axis=1)
-    df_clean = pd.DataFrame({'clean': df_wv_onecol})
+def doc_vectorizer(df, cols):
+    if type(cols) == box.box_list.BoxList:
+        for col in cols:
+            df_wv = df[col]
+            word_lists = [row.split(',') for row in df_wv]
+            documents = [TaggedDocument(doc, [i]) for i, doc in enumerate(word_lists)]
+            model = gensimmodels.Doc2Vec(documents)
+            df[f'dv_{col}'] = model.dv
+    if type(cols) == str:
+        df_wv = df[cols]
+        word_lists = [row.split(',') for row in df_wv]
+        documents = [TaggedDocument(doc, [i]) for i, doc in enumerate(word_lists)]
+        model = gensimmodels.Doc2Vec(documents)
 
-    word_lists = [row.split(',') for row in df_clean['clean']]
-    model = gensimmodels.Word2Vec(word_lists)
+        doc_vec_column_dummies = []
+        for doc_index in range(0, len(model.dv[0])):
+            doc_vec_column_dummies.append(f'dv_{cols}_{doc_index}')
+
+        df_dv = pd.DataFrame(columns=doc_vec_column_dummies)
+        for dv in model.dv:
+            tmp_df = pd.DataFrame([dv], columns=doc_vec_column_dummies)
+            df_dv = pd.concat([df_dv, tmp_df])
+        df = pd.concat([df, df_dv], axis=1)
 
     # model.train(word_lists, total_examples = 100000, epochs = 200 - train the model
     # len(model.wv) - for how many keys do we have vectors?
     # model.wv[4] - get one vecotr
     # model.wv['mein key'] - get vector to key, if it exists
-    print('fertig')
+    return df
