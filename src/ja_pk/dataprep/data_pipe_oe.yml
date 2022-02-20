@@ -85,5 +85,18 @@ p9:
 
 p10:
   func: remove_stopwords_umlaute_german
-  cols: description
+  cols:
+    - description
+    - facilities
   
+p11:
+  func: stemming_german
+  cols:
+    - description
+    - facilities
+
+p12:
+  func: word2vectorizer
+  cols:
+    - description
+    - facilities

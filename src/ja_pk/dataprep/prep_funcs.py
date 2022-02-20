@@ -14,8 +14,10 @@ from sklearn.preprocessing import PowerTransformer
 from scipy.signal import argrelextrema
 from nltk import download as nltkdownload
 from nltk.corpus import stopwords
+from nltk.stem.cistem import Cistem
 from string import punctuation
 from string import digits
+from gensim import models as gensimmodels
 
 from ja_pk.utils import basic
 #from db.get_dbtable_data import get_dbtable_data
@@ -350,7 +352,8 @@ def remove_stopwords_umlaute_german(df, cols):
         tempVar = tempVar.replace('Ö', 'Oe')
         tempVar = tempVar.replace('Ü', 'Ue')
         tempVar = tempVar.replace('ß', 'ss')
-        
+        tempVar = tempVar.replace(',', '')
+
         return tempVar
     
     german_stop_words_to_use = []   # List to hold words after conversion
@@ -374,3 +377,36 @@ def remove_stopwords_umlaute_german(df, cols):
         df[cols] = df.apply(lambda x: cell_stopword_removel(x[cols]), axis=1)
 
     return df
+
+def stemming_german(df, cols):
+
+    cs = Cistem()
+
+    def cell_stem(cell):
+        if type(cell) == float:
+            return ""
+        text_stemmed_words = [cs.stem(word) for word in cell.split()]
+        text_stemmed_words = ' '.join(text_stemmed_words)
+        return text_stemmed_words
+
+    if type(cols) == box.box_list.BoxList:
+        for col in cols:
+            df[col] = df.apply(lambda x: cell_stem(x[col]), axis=1)
+    if type(cols) == str:
+        df[cols] = df.apply(lambda x: cell_stem(x[cols]), axis=1)
+
+    return df
+
+def word2vectorizer(df, cols):
+    df_wv = df[cols]
+    df_wv_onecol = df_wv.apply(lambda x: ','.join(x.astype(str)), axis=1)
+    df_clean = pd.DataFrame({'clean': df_wv_onecol})
+
+    word_lists = [row.split(',') for row in df_clean['clean']]
+    model = gensimmodels.Word2Vec(word_lists)
+
+    # model.train(word_lists, total_examples = 100000, epochs = 200 - train the model
+    # len(model.wv) - for how many keys do we have vectors?
+    # model.wv[4] - get one vecotr
+    # model.wv['mein key'] - get vector to key, if it exists
+    print('fertig')
