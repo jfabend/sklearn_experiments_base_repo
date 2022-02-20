@@ -1,4 +1,6 @@
 import sys, getopt, os
+import pickle
+from joblib import dump, load
 from dotenv import load_dotenv
 load_dotenv(verbose=False)
 import logging
@@ -12,6 +14,10 @@ from ja_pk.exp.model import Model
 from ja_pk.exp.experiment import Experiment
 
 import pandas as pd
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_absolute_percentage_error
+from sklearn.metrics import r2_score
+from sklearn.metrics import median_absolute_error
 
 # Read exp config yml
 import yaml
@@ -73,5 +79,19 @@ else:
 
   logging.info(f'Starting the experiment now')
   results = experiment.start()
+
 print(results)
-#print("test_score_mean: "+ str(results['test_score'].mean()))
+model = results['estimator'][0][0]
+dump(model, 'model.joblib')
+validation_set = pd.read_csv("vali_prepped.csv")
+validation_set['predictions'] = model.predict(validation_set[list(experiment.feature_list)])
+
+mape = mean_absolute_percentage_error(validation_set[experiment.target_col], validation_set['predictions'])
+rsme = mean_squared_error(validation_set[experiment.target_col], validation_set['predictions'], squared=False)
+r2 = r2_score(validation_set[experiment.target_col], validation_set['predictions'])
+median_ae = median_absolute_error(validation_set[experiment.target_col], validation_set['predictions'])
+
+print(f'mape: {mape}')
+print(f'rsme: {rsme}')
+print(f'r2: {r2}')
+print(f'median_ae: {median_ae}')

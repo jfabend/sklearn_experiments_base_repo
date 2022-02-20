@@ -4,6 +4,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.neural_network import MLPClassifier
 from xgboost import XGBRegressor
 from xgboost import XGBClassifier
+from catboost import CatBoostRegressor
 
 class Model():
 
@@ -23,6 +24,8 @@ class Model():
             model = linear_model.LogisticRegression()
         if self.model_name == "xgboostclassifier":
             model = XGBClassifier()
+        if self.model_name == "catboostregressor":
+            model = CatBoostRegressor()
         if self.model_name == "svm":
             model = svm.SVC()
         if self.model_name == "mlpclassifier":

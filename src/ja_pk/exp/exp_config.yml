@@ -49,6 +49,7 @@ models:
   #   #   - 10
   #  randomforestclassifier__n_estimators:
   #    - 100
+  #catboostregressor
   xgboostregressor
   #  xgboostregressor__eta:
   #    - 0.01

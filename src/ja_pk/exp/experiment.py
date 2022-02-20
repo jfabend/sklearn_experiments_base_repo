@@ -70,8 +70,8 @@ class Experiment():
 
         # if there is no param grid, start the simple scikit cross_validate()
         if self.param_grid == "none":
-            results = cross_validate(pipe, self.feature_data, self.target_data, cv=folds, scoring=my_scoring)
-
+            logging.info(f'Starting the cross validate fitting')
+            results = cross_validate(pipe, self.feature_data, self.target_data, cv=folds, scoring=my_scoring, return_estimator=True)
         # if there is a param grid, start scikit GridSearchCV()    
         else:
             logging.info(f'Building the GridSearchCV')

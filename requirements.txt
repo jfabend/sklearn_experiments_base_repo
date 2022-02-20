@@ -7,3 +7,4 @@ python-box==5.4.1
 python-dotenv
 imblearn
 xgboost==1.5.2
+catboost==1.0.4
