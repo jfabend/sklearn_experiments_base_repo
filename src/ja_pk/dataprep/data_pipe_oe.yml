@@ -11,6 +11,9 @@
 p1:
   func: drop_na_rows
   special_col: facilities
+p101:
+  func: drop_na_rows
+  special_col: description
 p2:
   func: new_col_divide
   base_col: totalRent
@@ -85,12 +88,18 @@ p9:
 
 p10:
   func: remove_stopwords_umlaute_german
-  cols: facilities
+  cols:
+    - facilities
+    - description
   
 p11:
   func: stemming_german
-  cols: facilities
+  cols:
+    - facilities
+    - description
 
 p12:
   func: doc_vectorizer
-  cols: facilities
+  cols:
+    - facilities
+    - description

@@ -409,7 +409,23 @@ def doc_vectorizer(df, cols):
             word_lists = [row.split(',') for row in df_wv]
             documents = [TaggedDocument(doc, [i]) for i, doc in enumerate(word_lists)]
             model = gensimmodels.Doc2Vec(documents)
-            df[f'dv_{col}'] = model.dv
+
+            doc_vec_column_dummies = []
+            for doc_index in range(0, len(model.dv[0])):
+                doc_vec_column_dummies.append(f'dv_{col}_{doc_index}')
+
+            dvs = np.empty((0,len(model.dv[0])), float)
+            i = 0
+            for dv in model.dv.vectors:
+                print(str(i))
+                dvs = np.append(dvs, [dv], axis = 0)
+                i += 1
+            df_dv = pd.DataFrame( dvs, columns=doc_vec_column_dummies)
+            
+            df_dv.reset_index(drop=True, inplace=True)
+            df.reset_index(drop=True, inplace=True)
+            df = pd.concat([df, df_dv], axis=1)
+
     if type(cols) == str:
         df_wv = df[cols]
         word_lists = [row.split(',') for row in df_wv]
@@ -427,7 +443,7 @@ def doc_vectorizer(df, cols):
             dvs = np.append(dvs, [dv], axis = 0)
             i += 1
         df_dv = pd.DataFrame( dvs, columns=doc_vec_column_dummies)
-        
+
         df_dv.reset_index(drop=True, inplace=True)
         df.reset_index(drop=True, inplace=True)
         df = pd.concat([df, df_dv], axis=1)
