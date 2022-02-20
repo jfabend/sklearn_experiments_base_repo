@@ -420,10 +420,16 @@ def doc_vectorizer(df, cols):
         for doc_index in range(0, len(model.dv[0])):
             doc_vec_column_dummies.append(f'dv_{cols}_{doc_index}')
 
-        df_dv = pd.DataFrame(columns=doc_vec_column_dummies)
-        for dv in model.dv:
-            tmp_df = pd.DataFrame([dv], columns=doc_vec_column_dummies)
-            df_dv = pd.concat([df_dv, tmp_df])
+        dvs = np.empty((0,len(model.dv[0])), float)
+        i = 0
+        for dv in model.dv.vectors:
+            print(str(i))
+            dvs = np.append(dvs, [dv], axis = 0)
+            i += 1
+        df_dv = pd.DataFrame( dvs, columns=doc_vec_column_dummies)
+        
+        df_dv.reset_index(drop=True, inplace=True)
+        df.reset_index(drop=True, inplace=True)
         df = pd.concat([df, df_dv], axis=1)
 
     # model.train(word_lists, total_examples = 100000, epochs = 200 - train the model

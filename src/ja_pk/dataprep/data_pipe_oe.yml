@@ -8,9 +8,9 @@
 #    - lastRefurbish
 #    - electricityBasePrice
 #    - electricityKwhPrice
-#p1:
-#  func: drop_na_rows
-#  special_col: yearConstructed
+p1:
+  func: drop_na_rows
+  special_col: facilities
 p2:
   func: new_col_divide
   base_col: totalRent
