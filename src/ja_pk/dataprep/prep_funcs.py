@@ -19,6 +19,8 @@ from string import punctuation
 from string import digits
 from gensim import models as gensimmodels
 from gensim.models.doc2vec import TaggedDocument
+from sklearn.decomposition import PCA
+from math import ceil
 
 from dataclasses import make_dataclass
 
@@ -32,6 +34,10 @@ def drop_na_rows(df, special_col=""):
             df = df[~pd.isnull(df[col])]
     else:
         df = df[~pd.isnull(df[special_col])]
+    return df
+
+def drop_duplicates(df):
+    df = df.drop_duplicates()
     return df
 
 def remove_cols(df, cols):
@@ -452,4 +458,18 @@ def doc_vectorizer(df, cols):
     # len(model.wv) - for how many keys do we have vectors?
     # model.wv[4] - get one vecotr
     # model.wv['mein key'] - get vector to key, if it exists
+    return df
+
+def sl_pca(df, cols_prefix):
+    rel_cols = [col for col in df.columns if col.startswith(cols_prefix)]
+    amount_components = ceil(len(rel_cols)*0.05)
+    mypca = PCA(n_components=amount_components)
+    pca_features = mypca.fit_transform(df[rel_cols])
+
+    pca_col_names = [f'pca_{cols_prefix}{k}' for k in range(0,amount_components)]
+    pca_df = pd.DataFrame(pca_features, columns = pca_col_names)
+
+    pca_df.reset_index(drop=True, inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    df = pd.concat([df, pca_df], axis=1)
     return df

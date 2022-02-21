@@ -8,6 +8,8 @@
 #    - lastRefurbish
 #    - electricityBasePrice
 #    - electricityKwhPrice
+p0:
+  func: drop_duplicates
 p1:
   func: drop_na_rows
   special_col: facilities
@@ -26,7 +28,7 @@ p3:
     - rent_per_space
   value: 100
 
-p3:
+p31:
   func: remove_if_greater
   cols:
     - totalRent
@@ -86,20 +88,23 @@ p81:
 p9:
   func: remove_umlaute_from_colnames
 
-p10:
-  func: remove_stopwords_umlaute_german
-  cols:
-    - facilities
-    - description
-  
-p11:
-  func: stemming_german
-  cols:
-    - facilities
-    - description
-
-p12:
-  func: doc_vectorizer
-  cols:
-    - facilities
-    - description
+#p10:
+#  func: remove_stopwords_umlaute_german
+#  cols:
+#    - facilities
+#    - description
+#  
+#p11:
+#  func: stemming_german
+#  cols:
+#    - facilities
+#    - description
+#
+#p12:
+#  func: doc_vectorizer
+#  cols:
+#    - facilities
+#    - description
+#p90:
+#  func: sl_pca
+#  cols_prefix: 'dv_'

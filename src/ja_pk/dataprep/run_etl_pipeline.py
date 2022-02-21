@@ -22,7 +22,7 @@ data = pd.read_csv("C:\Data\projects\\nomoko_ass\\immo_data.csv",
                     encoding = 'utf8',
                     lineterminator='\n'
                 )
-data = data.sample(frac = 0.2)
+# data = data.sample(frac = 0.2)
 
 logging.info(f' Prep pipeline to run: {pipe_config_pipe}')
 #logging.info(f' Database table used for prep pipeline: {db_table_name}')
@@ -87,5 +87,3 @@ logging.info(f'amounf of rows validation set: {validation_df.count()[0]}')
 new_df.to_csv('alldata_prepped.csv', index=False)
 train_df.to_csv('train_prepped.csv', index=False)
 validation_df.to_csv('vali_prepped.csv', index=False)
-
-#write_table(new_df, "prepped_20210601")
