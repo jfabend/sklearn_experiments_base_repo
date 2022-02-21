@@ -1,0 +1,11 @@
+#p1:
+#  func: remove_cols
+#  cols:
+#    - a_column_name
+#    - another_column
+
+p0:
+  func: drop_duplicates
+p1:
+  func: drop_na_rows
+  special_col: some_column_name
