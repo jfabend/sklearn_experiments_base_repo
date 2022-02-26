@@ -1,12 +1,14 @@
 from sklearn import linear_model, svm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.neural_network import MLPClassifier
 from xgboost import XGBRegressor
 from xgboost import XGBClassifier
 from catboost import CatBoostRegressor
 from catboost import CatBoostClassifier
 from lightgbm import LGBMClassifier
+from sklearn.naive_bayes import GaussianNB
 
 class Model():
 
@@ -39,4 +41,8 @@ class Model():
                                     min_child_samples=350,
                                     max_depth=5,
                                     n_estimators=170)
+        if self.model_name == "naivebayesclassifier":
+            model = GaussianNB()
+        if self.model_name == "adaboostclassifier":
+            model = AdaBoostClassifier()
         return model

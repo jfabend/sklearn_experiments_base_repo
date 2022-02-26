@@ -6,38 +6,38 @@
 
 p0:
   func: drop_duplicates
-p1:
-  func: replace_str_pattern
-  col: monthly_fees
-  spattern: ","
-  rpattern: "."
-p2:
-  func: replace_str_pattern
-  col: has_health_insurance
-  spattern: "YES"
-  rpattern: "1"
+#p1:
+#  func: replace_str_pattern
+#  col: monthly_fees
+#  spattern: ","
+#  rpattern: "."
+#p2:
+#  func: replace_str_pattern
+#  col: has_health_insurance
+#  spattern: "YES"
+#  rpattern: "1"
 p3:
   func: set_col_dtype
   dtype: str
   cols:
     - tenure
     - number_of_products
-p4:
-  func: set_col_dtype
-  dtype: int
-  cols: has_health_insurance
+#p4:
+#  func: set_col_dtype
+#  dtype: int
+#  cols: has_health_insurance
 p5:
   func: oe_encode
   cols:
     - country
     - sex
-    - tenure
+    #- tenure
     - number_of_products
-    - has_health_insurance
+    #- has_health_insurance
     - has_life_insurance
-p6:
-  func: remove_rows_with_letters
-  cols: salary_estimated
+#p6:
+#  func: remove_rows_with_letters
+#  cols: salary_estimated
 #p1:
 #  func: drop_na_rows
 #  special_col: some_column_name

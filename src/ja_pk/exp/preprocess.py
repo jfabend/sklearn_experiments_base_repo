@@ -12,6 +12,11 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import KMeansSMOTE
+from imblearn.over_sampling import ADASYN
+from imblearn.over_sampling import BorderlineSMOTE
+from imblearn.over_sampling import SVMSMOTE
+from imblearn.over_sampling import SMOTENC
 from sklearn.impute import SimpleImputer
 from sklearn.compose import make_column_selector as selector
 from ja_pk.utils import basic
@@ -59,7 +64,25 @@ def get_preprocessing_pipe(filename, feature_data, target_data):
             if function == 'SMOTE':
                 # rebalance
                 features_resambled, target_resambled = SMOTE().fit_resample(feature_data, target_data)
+
+            if function == 'kmeansSMOTE':
+                # rebalance
+                features_resambled, target_resambled = KMeansSMOTE().fit_resample(feature_data, target_data)
+
+            if function == 'adasyn':
+                # rebalance
+                features_resambled, target_resambled = ADASYN().fit_resample(feature_data, target_data)
+
+            if function == 'blSMOTE':
+                # rebalance
+                features_resambled, target_resambled = BorderlineSMOTE().fit_resample(feature_data, target_data)
                 
+            if function == 'svmSMOTE':
+                # rebalance
+                features_resambled, target_resambled = SVMSMOTE().fit_resample(feature_data, target_data)
+            #if function == 'SMOTENC':
+                # rebalance
+            #    features_resambled, target_resambled = SMOTENC(categorical_features=[False, True, True, True, True, True, True, True, True, True, True]).fit_resample(feature_data, target_data)
             if function == 'simpleimpute':
                 imp = SimpleImputer(missing_values=np.nan, strategy='median')
                 imp.fit(feature_data)

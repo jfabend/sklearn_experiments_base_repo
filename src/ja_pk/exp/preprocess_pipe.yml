@@ -5,6 +5,8 @@
 p2:
   func: SMOTE
 #p2:
+#  func: SMOTENC
+#p2:
 #  func: 'minmaxscaler'
 #  feature_range:
 #    - 0

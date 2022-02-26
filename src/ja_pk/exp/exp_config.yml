@@ -18,7 +18,7 @@ feature_list:
   #- 'tenure_9'
   - 'number_of_products_1'
   - 'number_of_products_2'
-  - 'number_of_products_3'
+  #- 'number_of_products_3'
   - 'number_of_products_4'
   #- 'has_health_insurance_0'
   #- 'has_health_insurance_1'
@@ -41,6 +41,7 @@ models:
   #  range: "false"
   #randomforestregressor
   lgbmclassifier
+  #adaboostclassifier
     #lgbmclassifier__num_leaves:
     #  - 10
     #  - 50
@@ -52,6 +53,7 @@ models:
   #    - 100
   #catboostregressor
   #catboostclassifier
+  #naivebayesclassifier
   #xgboostregressor
   #  xgboostregressor__eta:
   #    - 0.01
