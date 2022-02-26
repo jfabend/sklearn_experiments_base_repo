@@ -3,22 +3,27 @@ feature_list:
   - country_France
   - country_Germany
   - country_Spain
-  - has_life_insurance
-  - has_health_insurance
-  - number_of_products
-  - 'sex_Female'
+  #- 'sex_Female'
   - 'sex_Male'
-  - 'tenure_0'
-  - 'tenure_1'
-  - 'tenure_10'
-  - 'tenure_2'
-  - 'tenure_3'
-  - 'tenure_4'
-  - 'tenure_5'
-  - 'tenure_6'
-  - 'tenure_7'
-  - 'tenure_8'
-  - 'tenure_9'
+  #- 'tenure_0'
+  #- 'tenure_1'
+  #- 'tenure_10'
+  #- 'tenure_2'
+  #- 'tenure_3'
+  #- 'tenure_4'
+  #- 'tenure_5'
+  #- 'tenure_6'
+  #- 'tenure_7'
+  #- 'tenure_8'
+  #- 'tenure_9'
+  - 'number_of_products_1'
+  - 'number_of_products_2'
+  - 'number_of_products_3'
+  - 'number_of_products_4'
+  #- 'has_health_insurance_0'
+  #- 'has_health_insurance_1'
+  - 'has_life_insurance_0'
+  - 'has_life_insurance_1'
 #table_name: "prepped_20210601"
 target: churn
 eval_type: categorical
@@ -42,6 +47,7 @@ models:
   #  randomforestclassifier__n_estimators:
   #    - 100
   #catboostregressor
+  #catboostclassifier
   #xgboostregressor
   #  xgboostregressor__eta:
   #    - 0.01

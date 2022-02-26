@@ -5,6 +5,7 @@ from sklearn.neural_network import MLPClassifier
 from xgboost import XGBRegressor
 from xgboost import XGBClassifier
 from catboost import CatBoostRegressor
+from catboost import CatBoostClassifier
 
 class Model():
 
@@ -26,6 +27,8 @@ class Model():
             model = XGBClassifier()
         if self.model_name == "catboostregressor":
             model = CatBoostRegressor()
+        if self.model_name == "catboostclassifier":
+            model = CatBoostClassifier()
         if self.model_name == "svm":
             model = svm.SVC()
         if self.model_name == "mlpclassifier":

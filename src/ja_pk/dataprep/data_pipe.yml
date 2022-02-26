@@ -32,6 +32,9 @@ p5:
     - country
     - sex
     - tenure
+    - number_of_products
+    - has_health_insurance
+    - has_life_insurance
 p6:
   func: remove_rows_with_letters
   cols: salary_estimated
