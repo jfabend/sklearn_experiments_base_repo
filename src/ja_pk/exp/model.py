@@ -6,6 +6,7 @@ from xgboost import XGBRegressor
 from xgboost import XGBClassifier
 from catboost import CatBoostRegressor
 from catboost import CatBoostClassifier
+from lightgbm import LGBMClassifier
 
 class Model():
 
@@ -33,4 +34,6 @@ class Model():
             model = svm.SVC()
         if self.model_name == "mlpclassifier":
             model = MLPClassifier()
+        if self.model_name == "lgbmclassifier":
+            model = LGBMClassifier()
         return model

@@ -10,3 +10,4 @@ xgboost==1.5.2
 catboost==1.0.4
 gensim==4.1.2
 nltk==3.7
+lightgbm==3.3.2
