@@ -83,13 +83,13 @@ else:
 print(results)
 model = results['estimator'][0][0]
 dump(model, 'model.joblib')
-validation_set = pd.read_csv("vali_prepped.csv")
-validation_set['predictions'] = model.predict(validation_set[list(experiment.feature_list)])
+test_set = pd.read_csv("test_prepped.csv")
+test_set['predictions'] = model.predict(test_set[list(experiment.feature_list)])
 
-mape = mean_absolute_percentage_error(validation_set[experiment.target_col], validation_set['predictions'])
-rsme = mean_squared_error(validation_set[experiment.target_col], validation_set['predictions'], squared=False)
-r2 = r2_score(validation_set[experiment.target_col], validation_set['predictions'])
-median_ae = median_absolute_error(validation_set[experiment.target_col], validation_set['predictions'])
+mape = mean_absolute_percentage_error(test_set[experiment.target_col], test_set['predictions'])
+rsme = mean_squared_error(test_set[experiment.target_col], test_set['predictions'], squared=False)
+r2 = r2_score(test_set[experiment.target_col], test_set['predictions'])
+median_ae = median_absolute_error(test_set[experiment.target_col], test_set['predictions'])
 
 print(f'mape: {mape}')
 print(f'rsme: {rsme}')

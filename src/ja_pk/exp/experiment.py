@@ -63,8 +63,8 @@ class Experiment():
         # Cross Validation Parameters
         # Move this to the exp_config.yml
 
-        my_scoring = ['neg_root_mean_squared_error' , 'neg_mean_absolute_percentage_error']
-        #my_scoring = 'roc_auc'
+        #my_scoring = ['neg_root_mean_squared_error' , 'neg_mean_absolute_percentage_error']
+        my_scoring = 'roc_auc'
         # my_scoring = ['accuracy', 'roc_auc'] => !! Das geht nicht !!
         folds = 5
 

@@ -13,15 +13,15 @@ from ja_pk.dataprep import prep_funcs
 logging.basicConfig(level = logging.INFO)
 
 # Read the pipeline config
-pipe_config_pipe = "\\dataprep\\data_pipe_oe.yml"
+pipe_config_pipe = "\\dataprep\\data_pipe.yml"
 pipe_config = basic.read_config(pipe_config_pipe)
 #! data = get_dbtable_data(db_table_name)
-#data = pd.read_csv("C:\Data\projects\kaggle\\titanic\\train.csv")
-data = pd.read_csv("C:\Data\projects\\nomoko_ass\\immo_data.csv",
-                    sep=',',
-                    encoding = 'utf8',
-                    lineterminator='\n'
-                )
+data = pd.read_csv("D:\Sonstiges\\tech_assign_acc\churn.csv", sep = ";")
+#data = pd.read_csv("C:\Data\projects\\data.csv",
+#                    sep=',',
+#                    encoding = 'utf8',
+#                    lineterminator='\n'
+#                )
 # data = data.sample(frac = 0.2)
 
 logging.info(f' Prep pipeline to run: {pipe_config_pipe}')
@@ -80,10 +80,10 @@ new_df.head()
 logging.info(f'total amounf of rows: {new_df.count()[0]}')
 
 train_df = new_df.sample(frac = 0.85)
-logging.info(f'amounf of rows train/test set: {train_df.count()[0]}')
+logging.info(f'amounf of rows train/validation set: {train_df.count()[0]}')
 validation_df = new_df.drop(train_df.index)
-logging.info(f'amounf of rows validation set: {validation_df.count()[0]}')
+logging.info(f'amounf of rows test set: {validation_df.count()[0]}')
 
 new_df.to_csv('alldata_prepped.csv', index=False)
 train_df.to_csv('train_prepped.csv', index=False)
-validation_df.to_csv('vali_prepped.csv', index=False)
+validation_df.to_csv('test_prepped.csv', index=False)

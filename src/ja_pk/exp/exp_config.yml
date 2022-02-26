@@ -1,11 +1,28 @@
 feature_list:
-  - a_feature_column_name
-  - another_feature_column_name
-
+  - account_balance
+  - country_France
+  - country_Germany
+  - country_Spain
+  - has_life_insurance
+  - has_health_insurance
+  - number_of_products
+  - 'sex_Female'
+  - 'sex_Male'
+  - 'tenure_0'
+  - 'tenure_1'
+  - 'tenure_10'
+  - 'tenure_2'
+  - 'tenure_3'
+  - 'tenure_4'
+  - 'tenure_5'
+  - 'tenure_6'
+  - 'tenure_7'
+  - 'tenure_8'
+  - 'tenure_9'
 #table_name: "prepped_20210601"
-target: "the_target_column_name"
+target: churn
 models:
-  #"xgboostclassifier"
+  "xgboostclassifier"
   #"logisticregression"
   #linearmodel:
   #  linearmodel__normalize:
@@ -24,7 +41,7 @@ models:
   #  randomforestclassifier__n_estimators:
   #    - 100
   #catboostregressor
-  xgboostregressor
+  #xgboostregressor
   #  xgboostregressor__eta:
   #    - 0.01
   #  xgboostregressor__max_depth:

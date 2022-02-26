@@ -40,6 +40,14 @@ def drop_duplicates(df):
     df = df.drop_duplicates()
     return df
 
+def replace_str_pattern(df, col, spattern, rpattern):
+    def str_replace(cell, spattern, rpattern):
+        return cell.replace(spattern, rpattern)
+
+    df[col] = df[col].astype('str')
+    df[col] = df[col].apply(lambda x: str_replace(x, spattern, rpattern))
+    return df
+
 def remove_cols(df, cols):
     if type(cols) == box.box_list.BoxList:
         df = df.drop(columns=cols)
@@ -112,6 +120,14 @@ def rolling_mean(df, cols, days):
 def remove_by_value(df, cols, value):
     for col in cols:
         df = df[df[col] != value]
+    return df
+
+def remove_rows_with_letters(df, cols):
+    if type(cols) == box.box_list.BoxList:
+        for col in cols:
+            df = df[~df[col].str.contains("[a-zA-Z]").fillna(False)]
+    if type(cols) == str:
+        df = df[~df[cols].str.contains("[a-zA-Z]").fillna(False)]
     return df
 
 def remove_if_smaller(df, cols, value):

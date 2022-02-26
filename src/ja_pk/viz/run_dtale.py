@@ -6,13 +6,13 @@ from pathlib import Path
 #%%
 #path = Path("C:/")
 #filepath = path / "Data" / "projects" / "kaggle" / "titanic" / "train.csv"
-#df = pd.read_csv("C:\Data\projects\\nomoko_ass\\immo_data.csv",
+#df = pd.read_csv("C:\Data\path\data.csv",
 #                    sep=',',
 #                    encoding = 'utf8',
 #                    lineterminator='\n'
 #                )
 #df.head()
-df = pd.read_csv("C:\Data\projects\sklearn_experiments_base_repo\\alldata_prepped.csv",
+df = pd.read_csv("D:\Sonstiges\sklearn_experiments_base_repo\\train_prepped.csv",
                     sep=',')
 df.head()
 #%%
