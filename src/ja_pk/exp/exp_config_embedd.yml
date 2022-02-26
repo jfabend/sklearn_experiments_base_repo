@@ -1,0 +1,54 @@
+feature_list:
+  - account_balance
+  - country_France
+  - country_Germany
+  - country_Spain
+  - 'sex_Female'
+  - embedd_0
+  - embedd_1
+  - embedd_2
+#table_name: "prepped_20210601"
+target: churn
+eval_type: categorical
+models:
+  #"xgboostclassifier"
+  #"logisticregression"
+  #linearmodel:
+  #  linearmodel__normalize:
+  #    - "False"
+  #    - "True"
+  #knn:
+  #  k:
+  #    - 3
+  #    - 8
+  #  range: "false"
+  #randomforestregressor
+  lgbmclassifier
+    #lgbmclassifier__num_leaves:
+    #  - 10
+    #  - 50
+  #randomforestclassifier
+  #   # max_depth:
+  #   #   - 5
+  #   #   - 10
+  #  randomforestclassifier__n_estimators:
+  #    - 100
+  #catboostregressor
+  #catboostclassifier
+  #xgboostregressor
+  #  xgboostregressor__eta:
+  #    - 0.01
+  #  xgboostregressor__max_depth:
+  #    - 15
+  #  xgboostregressor__booster:
+  #    - 'gbtree'
+  #    #- 'gblinear'
+  #  xgboostregressor__min_child_weight:
+  #    - 6
+  #svm
+  # mlpclassifier:
+  #   mlpclassifier__solver:
+  #     - lbfgs
+  #     - adam
+  #   mlpclassifier__max_iter:
+  #     - 1000

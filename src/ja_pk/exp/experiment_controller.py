@@ -24,7 +24,7 @@ from sklearn.metrics import roc_auc_score
 # Read exp config yml
 import yaml
 from box import Box
-with open(os.getenv("ROOT_DIR") + "\\exp\\exp_config.yml", "r") as ymlfile:
+with open(os.getenv("ROOT_DIR") + "\\exp\\exp_config_embedd.yml", "r") as ymlfile:
   exp_config = Box(yaml.safe_load(ymlfile))
 
 # Read table from DB (pandas df)
