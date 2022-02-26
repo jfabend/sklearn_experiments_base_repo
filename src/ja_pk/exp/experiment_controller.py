@@ -18,6 +18,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_percentage_error
 from sklearn.metrics import r2_score
 from sklearn.metrics import median_absolute_error
+from sklearn.metrics import roc_auc_score
 
 # Read exp config yml
 import yaml
@@ -32,6 +33,10 @@ data = pd.read_csv("train_prepped.csv")
 # Read features and target
 feature_list = exp_config.feature_list
 target = exp_config.target
+
+# Read eval_type (numerical / categorical)
+# to make sure, that we use the right metrics
+eval_type = exp_config.eval_type
 
 # Prepair an empty list for all models to be applied
 models_to_apply = []
@@ -54,7 +59,8 @@ if type(exp_config.models) is str:
                           target_col=target,
                           model=models_to_apply[0],
                           modelname=modelname,
-                          param_grid=model_params_raw)
+                          param_grid=model_params_raw,
+                          eval_type=eval_type)
   results = experiment.start()
 
 # ... or if the models contain models with pararms
@@ -86,12 +92,18 @@ dump(model, 'model.joblib')
 test_set = pd.read_csv("test_prepped.csv")
 test_set['predictions'] = model.predict(test_set[list(experiment.feature_list)])
 
-mape = mean_absolute_percentage_error(test_set[experiment.target_col], test_set['predictions'])
-rsme = mean_squared_error(test_set[experiment.target_col], test_set['predictions'], squared=False)
-r2 = r2_score(test_set[experiment.target_col], test_set['predictions'])
-median_ae = median_absolute_error(test_set[experiment.target_col], test_set['predictions'])
+if eval_type == "numerical":
+    mape = mean_absolute_percentage_error(test_set[experiment.target_col], test_set['predictions'])
+    rsme = mean_squared_error(test_set[experiment.target_col], test_set['predictions'], squared=False)
+    r2 = r2_score(test_set[experiment.target_col], test_set['predictions'])
+    median_ae = median_absolute_error(test_set[experiment.target_col], test_set['predictions'])
 
-print(f'mape: {mape}')
-print(f'rsme: {rsme}')
-print(f'r2: {r2}')
-print(f'median_ae: {median_ae}')
+    print(f'mape: {mape}')
+    print(f'rsme: {rsme}')
+    print(f'r2: {r2}')
+    print(f'median_ae: {median_ae}')
+
+if eval_type == "categorical":
+    roc_curve_area = roc_auc_score(test_set[experiment.target_col], test_set['predictions'])
+
+    print(f'roc curve area: {roc_curve_area}')

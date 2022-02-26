@@ -10,7 +10,7 @@ import pandas as pd
 
 class Experiment():
 
-    def __init__(self, data, feature_list, target_col, model, modelname, param_grid):
+    def __init__(self, data, feature_list, target_col, model, modelname, param_grid, eval_type):
         """[summary]
 
         Args:
@@ -19,7 +19,7 @@ class Experiment():
             target_col (str): name of target column
             model (Object): Model Object created with sklearn
             param_grid (dict): Dict or list of dicts including the model params names as keys and a list of values as value
-
+            eval_type (str): "categorical" or "numerical" (determines metric type)
         Returns:
             Object: Object of class Experiment
         """
@@ -32,6 +32,7 @@ class Experiment():
         self.model = model
         self.modelname = modelname
         self.param_grid = param_grid
+        self.eval_type = eval_type
         return None
 
 # Perfom gridsearch cross validation and evaluation
@@ -62,10 +63,11 @@ class Experiment():
 
         # Cross Validation Parameters
         # Move this to the exp_config.yml
-
-        #my_scoring = ['neg_root_mean_squared_error' , 'neg_mean_absolute_percentage_error']
-        my_scoring = 'roc_auc'
-        # my_scoring = ['accuracy', 'roc_auc'] => !! Das geht nicht !!
+        
+        if self.eval_type == "categorical":
+            my_scoring = 'roc_auc'
+        if self.eval_type == "numerical":
+            my_scoring = ['neg_root_mean_squared_error' , 'neg_mean_absolute_percentage_error']
         folds = 5
 
         # if there is no param grid, start the simple scikit cross_validate()

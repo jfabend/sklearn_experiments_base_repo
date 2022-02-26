@@ -21,6 +21,7 @@ feature_list:
   - 'tenure_9'
 #table_name: "prepped_20210601"
 target: churn
+eval_type: categorical
 models:
   "xgboostclassifier"
   #"logisticregression"
