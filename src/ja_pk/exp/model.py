@@ -35,5 +35,8 @@ class Model():
         if self.model_name == "mlpclassifier":
             model = MLPClassifier()
         if self.model_name == "lgbmclassifier":
-            model = LGBMClassifier()
+            model = LGBMClassifier(num_leaves=24,
+                                    min_child_samples=350,
+                                    max_depth=5,
+                                    n_estimators=170)
         return model

@@ -14,6 +14,7 @@ from ja_pk.exp.model import Model
 from ja_pk.exp.experiment import Experiment
 
 import pandas as pd
+import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_percentage_error
 from sklearn.metrics import r2_score
@@ -81,13 +82,15 @@ else:
                               target_col=target,
                               model=models_to_apply[0],
                               modelname=modelname,
-                              param_grid=model_params_raw)
+                              param_grid=model_params_raw,
+                              eval_type=eval_type)
 
   logging.info(f'Starting the experiment now')
   results = experiment.start()
 
 print(results)
 model = results['estimator'][0][0]
+#model = results['estimator'][np.argmax(results['test_score'])][0]
 dump(model, 'model.joblib')
 test_set = pd.read_csv("test_prepped.csv")
 test_set['predictions'] = model.predict(test_set[list(experiment.feature_list)])

@@ -3,8 +3,8 @@ feature_list:
   - country_France
   - country_Germany
   - country_Spain
-  #- 'sex_Female'
-  - 'sex_Male'
+  - 'sex_Female'
+  #- 'sex_Male'
   #- 'tenure_0'
   #- 'tenure_1'
   #- 'tenure_10'
@@ -41,6 +41,9 @@ models:
   #  range: "false"
   #randomforestregressor
   lgbmclassifier
+    #lgbmclassifier__num_leaves:
+    #  - 10
+    #  - 50
   #randomforestclassifier
   #   # max_depth:
   #   #   - 5
